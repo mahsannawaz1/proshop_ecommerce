@@ -14,6 +14,7 @@ class Product(models.Model):
   numReviews=models.IntegerField(null=True, blank=True,default=0)
   countInStock=models.IntegerField(null=True, blank=True,default=0)
   createdAt=models.DateTimeField(null=True, blank=True,auto_now_add=True)
+  image=models.ImageField(null=True, blank=True)
   def __str__(self):
     return f'{self.name}'
 
