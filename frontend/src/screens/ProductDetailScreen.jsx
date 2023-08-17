@@ -3,7 +3,6 @@ import { Link,useParams,useNavigate } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Button, Card, Form, ListGroupItem } from 'react-bootstrap';
 import Rating from '../components/common/Rating';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { productDetail } from '../actions/productAction';
 import Loader from '../components/common/Loader';

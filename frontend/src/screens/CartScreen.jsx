@@ -14,6 +14,9 @@ function CartScreen() {
   const dispatch = useDispatch()
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
+
+  const userLogin = useSelector(state => state.userLogin)
+  const {userInfo} = userLogin
   
   const navigate = useNavigate()
   useEffect(() => {
@@ -27,8 +30,13 @@ function CartScreen() {
     
   }
   const checkoutHandler = () => {
+    if (userInfo) {
+      navigate(`/shipping`)
+    }
+    else {
+      navigate(`/login?redirect=shipping`)
+    }
     
-    navigate(`/login?redirect=shipping`)
   }
 
   return ( 
