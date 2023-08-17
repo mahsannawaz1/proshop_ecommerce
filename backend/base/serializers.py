@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
   
   class Meta:
     model=User
-    fields=['id','username','email','name','_id']
+    fields=['id','username','email','name','_id','isAdmin']
 
   def get_name(self,user):
     if user.first_name:
@@ -31,7 +31,7 @@ class UserSerializerWithToken(UserSerializer):
   token=serializers.SerializerMethodField(method_name='get_token')
   class Meta:
     model=User
-    fields=['id','username','email','name','_id','token']
+    fields=['id','username','email','name','_id','isAdmin','token']
 
   def get_token(self,user):
     token=RefreshToken.for_user(user)
