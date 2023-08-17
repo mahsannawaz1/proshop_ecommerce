@@ -27,6 +27,7 @@ function ProfileScreen() {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
+  
   useEffect(() => {
     if (!userInfo) {
       navigate("/login")

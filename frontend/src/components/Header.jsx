@@ -40,7 +40,8 @@ function Header() {
               ) : (
                 <LinkContainer to="/login">
                 <Nav.Link href="#action2"> <i className="fas fa-user"></i> Login</Nav.Link>
-              </LinkContainer>
+                  </LinkContainer>
+                  
                 )}
 
            
