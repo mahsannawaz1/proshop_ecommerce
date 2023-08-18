@@ -32,7 +32,7 @@ def addOrderItems(request):
     )
 
     for i in orderItems:
-      product=Porduct.objects.get(id=i['product'])
+      product=Product.objects.get(_id=i['product'])
       item=OrderItem.objects.create(
         product=product,
         order=order,
@@ -42,8 +42,8 @@ def addOrderItems(request):
         image=product.image.url 
       )
 
-      product.countInStock -=item.qty 
+      product.countInStock -=int(item.qty) 
       product.save()
       
-  serializer= OrderSerializer(order,many=False)
-  return Response(serializer.data)
+    serializer= OrderSerializer(order,many=False)
+    return Response(serializer.data)

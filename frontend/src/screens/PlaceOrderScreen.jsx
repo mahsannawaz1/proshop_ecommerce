@@ -5,24 +5,53 @@ import { Link, useNavigate } from 'react-router-dom';
 import FormContainer from '../components/common/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import Message from './../components/Message';
+import { createOrder } from '../actions/orderActions';
+import { CREATE_ORDER_RESET } from '../constants/orderConstant';
+
 
 
 function PlaceOrderScreen() {
+
+  const orderCreate = useSelector(state => state.orderCreate)
+  const { order,success,error } = orderCreate
+  
   const cart = useSelector(state => state.cart)
   const { cartItems, shippingAddress, paymentMethod } = cart
+
   let itemsPrice=0
   for (var i = 0; i < cartItems.length; i++) { 
       itemsPrice += Number(cartItems[i].qty * cartItems[i].price)
-  }
-  
+  } 
   let shippingPrice = ((itemsPrice < 100) ? 10 : 0)
   let taxPrice = (itemsPrice * 0.25)
   let totalPrice = (itemsPrice + shippingPrice + taxPrice)
-  
-  
+  const navigate=useNavigate()
+  const dispatch = useDispatch()
+
   const placeOrderHandler = () => {
-    console.log('order placed')
+    dispatch(createOrder({
+      orderItems: cartItems,
+      shippingAddress: shippingAddress,
+      paymentMethod: paymentMethod,
+      itemsPrice: itemsPrice,
+      shippingPrice: shippingPrice,
+      taxPrice: taxPrice,
+      totalPrice: totalPrice
+    }))
   }
+  useEffect(() => {
+    if (!paymentMethod) {
+      console.log('Hello')
+      navigate('/payment')
+    }
+    if (success) {
+      console.log(order)
+      dispatch({
+        type:CREATE_ORDER_RESET
+      })
+
+    }
+  },[success])
   return ( 
     <div>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -116,14 +145,18 @@ function PlaceOrderScreen() {
               </ListGroup.Item>
               
               <ListGroup.Item>
-
+                {error && <Message variant="danger">{ error }</Message>}
               </ListGroup.Item>
-              <Button
-                type="button"
-                className="btn-block"
-                disabled={cartItems.length === 0}
-                onClick={placeOrderHandler}
-              >Place Order</Button>
+
+              <ListGroup.Item>
+                <Button
+                  type="button"
+                  className="btn-block"
+                  disabled={cartItems.length === 0}
+                  onClick={placeOrderHandler}
+                >Place Order</Button>
+              </ListGroup.Item>
+
             </ListGroup>
           </Card>
         </Col>

@@ -24,13 +24,15 @@ class OrderSerializer(serializers.ModelSerializer):
   user=serializers.SerializerMethodField(method_name='getUser')
   class Meta:
     model=Order
-    fields=['_id', 'user', 'shippingAddress', 'orderItems', 'paymentMethod', 'taxPrice','shippingPrice','totalPrice','isPaid','paidAt','isDelivered','deliveredAt','createdAt']
+    fields=['_id', 'user', 'shippingAddress', 'orderItems', 'payment_method', 'taxPrice','shippingPrice','totalPrice','isPaid','paidAt','isDelivered','deliveredAt','createdAt']
+    
   def getOrderItems(self,order):
     items=order.order_items.all()
     serializer=OrderItemSerializer(items,many=True)
     return serializer.data
 
   def getShippingAddress(self,order):
+    
     try:
       address=ShippingAddressSerializer(order.shippingAddress,many=False)
     except :
@@ -39,8 +41,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
   def getUser(self,order):
     user=order.user
-    UserSerializerWithToken(user,many=False)  
-    return address
+    serializer=UserSerializerWithToken(user,many=False)  
+    return serializer.data
 
 
 
